@@ -31,6 +31,10 @@ namespace LemonMissionPack.Missions
         /// The location for the pick up.
         /// </summary>
         private static readonly Vector3 PickUpLocation = new Vector3(-1032, -2730, 19f);
+        /// <summary>
+        /// The ped that we need to carry from the airport to Lester's house.
+        /// </summary>
+        private static Ped Objective { get; set; }
 
         public Mission01()
         {
@@ -90,6 +94,13 @@ namespace LemonMissionPack.Missions
                 MissionBlip.Name = "Terminal 4";
                 // And notify the player
                 UI.ShowSubtitle(Manager.Strings["M01_SUB01"], 5000);
+
+                // Then, proceed to create the ped
+                Objective = World.CreatePed(new Model(PedHash.FreemodeMale01), new Vector3(-1033.15f, -2739.35f, 20.17f), 14.87f);
+                Objective.AddBlip();
+                Objective.CurrentBlip.Color = BlipColor.Blue;
+                Objective.IsEnemy = false;
+                Objective.IsInvincible = true;
             }
 
             // If there is a blip and is the 2nd type of yellow
@@ -108,6 +119,16 @@ namespace LemonMissionPack.Missions
                 // Destroy it
                 MissionBlip.Remove();
                 MissionBlip = null;
+            }
+
+            // If there is a ped objective present
+            if (Objective != null && Objective.Exists())
+            {
+                // Also destroy it
+                Objective.Kill();
+                Objective.MarkAsNoLongerNeeded();
+                Objective.Delete();
+                Objective = null;
             }
         }
     }
