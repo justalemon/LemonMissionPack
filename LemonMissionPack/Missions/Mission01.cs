@@ -1,4 +1,4 @@
-﻿using GTA;
+using GTA;
 using GTA.Math;
 using GTA.Native;
 using System;
@@ -81,7 +81,7 @@ namespace LemonMissionPack.Missions
         private void OnTickMission(object sender, EventArgs e)
         {
             // If the player gets too close from the mission start, there is a blip and is the 2nd type of yellow
-            if (BlipLocation.DistanceTo(Game.Player.Character.Position) < 500 && MissionBlip != null && MissionBlip.Color != BlipColor.Yellow2)
+            if (BlipLocation.DistanceTo(Game.Player.Character.Position) < 500 && MissionBlip != null && MissionBlip.Color == BlipColor.Yellow)
             {
                 // Mark the mission as in-progress
                 IsInProgress = true;
