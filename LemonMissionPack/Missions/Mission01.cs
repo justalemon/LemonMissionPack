@@ -130,9 +130,16 @@ namespace LemonMissionPack.Missions
                                 // Wait
                                 Yield();
                             }
-
-                            // Unfreeze the vehicle
+                            // Once the objective has entered the vehicle, unfreeze it
                             Game.Player.Character.CurrentVehicle.FreezePosition = false;
+
+                            // And show some dialog
+                            UI.ShowSubtitle(Manager.Strings["M01_SUB02"], 4000);
+                            Wait(4000);
+                            UI.ShowSubtitle(Manager.Strings["M01_SUB03"], 4000);
+                            Wait(4000);
+                            UI.ShowSubtitle(Manager.Strings["M01_SUB04"], 4000);
+                            Wait(4000);
                         }
                     }
                 }
