@@ -1,4 +1,4 @@
-﻿using GTA;
+using GTA;
 using GTA.Math;
 using GTA.Native;
 using System;
@@ -108,6 +108,29 @@ namespace LemonMissionPack.Missions
             {
                 // Draw a little marker to show where the player needs to stop
                 World.DrawMarker(MarkerType.VerticalCylinder, PickUpLocation, Vector3.Zero, Vector3.Zero, new Vector3(1, 1, 1), Color.Yellow);
+
+                // If the player is near the marker and is on a vehicle
+                if (Game.Player.Character.CurrentVehicle != null && PickUpLocation.DistanceTo(Game.Player.Character.Position) <= 2 && !Objective.IsInVehicle(Game.Player.Character.CurrentVehicle))
+                {
+                    // Freeze the vehicle
+                    Game.Player.Character.CurrentVehicle.FreezePosition = true;
+
+                    // If the player is pressing the horn
+                    if (Game.IsEnabledControlJustPressed(0, Control.VehicleHorn))
+                    {
+                        // Tell the ped to enter the vehicle
+                        Function.Call(Hash.TASK_ENTER_VEHICLE, Objective, Game.Player.Character.CurrentVehicle, 20000, 0, 2f, 1, 0);
+
+                        // While the player is not on a vehicle
+                        while (!Objective.IsInVehicle(Game.Player.Character.CurrentVehicle))
+                        {
+                            Yield();
+                        }
+
+                        // And unfreeze the vehicle
+                        Game.Player.Character.CurrentVehicle.FreezePosition = false;
+                    }
+                }
             }
         }
 
