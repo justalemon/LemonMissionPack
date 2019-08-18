@@ -1,13 +1,18 @@
 ﻿using GTA;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LemonMissionPack
 {
     public class LemonMissionPack : Script
     {
+        /// <summary>
+        /// The strings to show in the game.
+        /// </summary>
+        public static Dictionary<string, string> Strings = new Dictionary<string, string>();
+
+        public LemonMissionPack()
+        {
+
+        }
     }
 }
