@@ -7,17 +7,26 @@ using System.Linq;
 
 namespace LemonMissionPack
 {
-    public class LemonMissionPack : Script
+    /// <summary>
+    /// Class that manages the basics of the missions.
+    /// </summary>
+    public class Manager : Script
     {
         /// <summary>
         /// The strings to show in the game.
         /// </summary>
         public static Dictionary<string, string> Strings { get; private set; } = new Dictionary<string, string>();
+        /// <summary>
+        /// If the base mission content has been loaded.
+        /// </summary>
+        public static bool IsContentLoaded { get; private set; } = false;
 
-        public LemonMissionPack()
+        public Manager()
         {
             // Reload the list of strings
             ReloadStrings(false);
+            // And mark the basics as loaded
+            IsContentLoaded = true;
         }
 
         public static void ReloadStrings(bool Notify = true)
