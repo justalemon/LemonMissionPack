@@ -60,7 +60,9 @@
     <None Include="LemonMissionPack\strings\American.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="LemonMissionPack\strings\Mexican.json" />
+    <None Include="LemonMissionPack\strings\Mexican.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="LemonMissionPack\UserProgress.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
