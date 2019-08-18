@@ -140,6 +140,7 @@ namespace LemonMissionPack.Missions
                             Wait(4000);
                             UI.ShowSubtitle(Manager.Strings["M01_SUB04"], 4000);
                             Wait(4000);
+                            UI.ShowSubtitle(Manager.Strings["M01_SUB05"], 4000);
                         }
                     }
                 }
