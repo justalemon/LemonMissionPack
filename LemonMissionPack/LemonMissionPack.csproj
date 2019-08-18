@@ -52,6 +52,7 @@
     <Compile Include="Script.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserProgress.cs" />
+    <Compile Include="..\Citron\Paths.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="LemonMissionPack\strings\American.json">
