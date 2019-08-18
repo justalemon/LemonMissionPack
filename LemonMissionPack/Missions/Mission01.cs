@@ -1,4 +1,4 @@
-using GTA;
+﻿using GTA;
 using GTA.Math;
 using GTA.Native;
 using System;
@@ -154,6 +154,42 @@ namespace LemonMissionPack.Missions
                             UI.ShowSubtitle(Manager.Strings["M01_SUB05"], 4000);
                         }
                     }
+                }
+            }
+
+            // If the player is en-route to dropping the objective
+            if (MissionBlip != null && MissionBlip.Color == BlipColor.Yellow3)
+            {
+                // Draw a little marker to show where the player needs to stop
+                World.DrawMarker(MarkerType.VerticalCylinder, PickUpLocation, Vector3.Zero, Vector3.Zero, new Vector3(1, 1, 1), Color.Yellow);
+
+                // If the player has arrived
+                if (DestinationLocation.DistanceTo(Game.Player.Character.Position) <= 2)
+                {
+                    // Freeze the player vehicle
+                    Game.Player.Character.CurrentVehicle.FreezePosition = true;
+                    // Some dialog
+                    UI.ShowSubtitle(Manager.Strings["M01_SUB06"], 4000);
+                    Wait(4000);
+                    // Fade out
+                    Game.FadeScreenOut(1000);
+                    Wait(1000);
+
+                    // Time for some cleanup!
+                    // Let's remove the character
+                    Objective.Delete();
+                    Objective = null;
+                    // Set the mission as completed
+                    IsInProgress = false;
+                    // And delete the blip
+                    MissionBlip.Remove();
+                    MissionBlip = null;
+
+                    // Fade in
+                    Game.FadeScreenIn(1000);
+                    Wait(1000);
+                    // And finally unfreeze the vehicle
+                    Game.Player.Character.CurrentVehicle.FreezePosition = false;
                 }
             }
         }
