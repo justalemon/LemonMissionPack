@@ -1,5 +1,6 @@
 {
     "RELOAD": "We have detected that the game language has been changed. The mission strings have been reloaded.",
 
-    "M01_SMS": "Hey! Sorry about this but can you please pick one of my associates from LSIA? He is waiting on Terminal 4 (FlyUS). Drop him on Amarillo Vista, one house at the east from mine."
+    "M01_SMS": "Hey! Sorry about this but can you please pick one of my associates from LSIA? He is waiting on Terminal 4 (FlyUS). Drop him on Amarillo Vista, one house at the east from mine.",
+    "M01_SUB01": "Pick up Lester's Associate on the ~y~Terminal 4"
 }

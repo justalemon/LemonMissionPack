@@ -1,7 +1,8 @@
-using GTA;
+﻿using GTA;
 using GTA.Math;
 using GTA.Native;
 using System;
+using System.Drawing;
 
 namespace LemonMissionPack.Missions
 {
@@ -26,6 +27,10 @@ namespace LemonMissionPack.Missions
         /// The location of the blip.
         /// </summary>
         private static readonly Vector3 BlipLocation = new Vector3(-1037, -2736, 20);
+        /// <summary>
+        /// The location for the pick up.
+        /// </summary>
+        private static readonly Vector3 PickUpLocation = new Vector3(-1032, -2730, 19f);
 
         public Mission01()
         {
@@ -71,6 +76,28 @@ namespace LemonMissionPack.Missions
 
         private void OnTickMission(object sender, EventArgs e)
         {
+            // If the player gets too close from the mission start, there is a blip and is the 2nd type of yellow
+            if (BlipLocation.DistanceTo(Game.Player.Character.Position) < 500 && MissionBlip != null && MissionBlip.Color != BlipColor.Yellow2)
+            {
+                // Mark the mission as in-progress
+                IsInProgress = true;
+                // Remove the existing blip
+                MissionBlip.Remove();
+                // Create a new one
+                MissionBlip = World.CreateBlip(PickUpLocation);
+                MissionBlip.Color = BlipColor.Yellow2;
+                MissionBlip.ShowRoute = true;
+                MissionBlip.Name = "Terminal 4";
+                // And notify the player
+                UI.ShowSubtitle(Manager.Strings["M01_SUB01"], 5000);
+            }
+
+            // If there is a blip and is the 2nd type of yellow
+            if (MissionBlip != null && MissionBlip.Color == BlipColor.Yellow2)
+            {
+                // Draw a little marker to show where the player needs to stop
+                World.DrawMarker(MarkerType.VerticalCylinder, PickUpLocation, Vector3.Zero, Vector3.Zero, new Vector3(1, 1, 1), Color.Yellow);
+            }
         }
 
         private void OnAbort(object sender, EventArgs e)
