@@ -1,4 +1,4 @@
-using GTA;
+﻿using GTA;
 using GTA.Math;
 using GTA.Native;
 using System;
@@ -109,26 +109,31 @@ namespace LemonMissionPack.Missions
                 // Draw a little marker to show where the player needs to stop
                 World.DrawMarker(MarkerType.VerticalCylinder, PickUpLocation, Vector3.Zero, Vector3.Zero, new Vector3(1, 1, 1), Color.Yellow);
 
-                // If the player is near the marker and is on a vehicle
-                if (Game.Player.Character.CurrentVehicle != null && PickUpLocation.DistanceTo(Game.Player.Character.Position) <= 2 && !Objective.IsInVehicle(Game.Player.Character.CurrentVehicle))
+                // If the player is on a vehicle and the character is not on said vehicle
+                if (Game.Player.Character.CurrentVehicle != null && !Objective.IsInVehicle(Game.Player.Character.CurrentVehicle))
                 {
-                    // Freeze the vehicle
-                    Game.Player.Character.CurrentVehicle.FreezePosition = true;
-
-                    // If the player is pressing the horn
-                    if (Game.IsEnabledControlJustPressed(0, Control.VehicleHorn))
+                    // If the player is near the pickup location
+                    if (PickUpLocation.DistanceTo(Game.Player.Character.Position) <= 2)
                     {
-                        // Tell the ped to enter the vehicle
-                        Function.Call(Hash.TASK_ENTER_VEHICLE, Objective, Game.Player.Character.CurrentVehicle, 20000, 0, 2f, 1, 0);
+                        // Freeze the vehicle
+                        Game.Player.Character.CurrentVehicle.FreezePosition = true;
 
-                        // While the player is not on a vehicle
-                        while (!Objective.IsInVehicle(Game.Player.Character.CurrentVehicle))
+                        // If the player is pressing the horn
+                        if (Game.IsEnabledControlJustPressed(0, Control.VehicleHorn))
                         {
-                            Yield();
-                        }
+                            // Tell the ped to enter the vehicle
+                            Function.Call(Hash.TASK_ENTER_VEHICLE, Objective, Game.Player.Character.CurrentVehicle, 20000, 0, 2f, 1, 0);
 
-                        // And unfreeze the vehicle
-                        Game.Player.Character.CurrentVehicle.FreezePosition = false;
+                            // While the objective is entering the vehicle
+                            while (!Objective.IsInVehicle(Game.Player.Character.CurrentVehicle))
+                            {
+                                // Wait
+                                Yield();
+                            }
+
+                            // Unfreeze the vehicle
+                            Game.Player.Character.CurrentVehicle.FreezePosition = false;
+                        }
                     }
                 }
             }
