@@ -47,7 +47,7 @@ namespace LemonMissionPack.Missions
         private void OnTickBasics(object sender, EventArgs e)
         {
             // If the user has not been notified, the base content is loaded, the game is not loading, the player is Franklin and the player can be controlled
-            if (!IsPlayerNotified && Manager.IsContentLoaded && !Game.IsLoading && (uint)Game.Player.Character.Model.Hash == (uint)PedHash.Franklin && Game.Player.CanControlCharacter)
+            if (!IsInProgress && !IsPlayerNotified && Manager.IsContentLoaded && !Game.IsLoading && (uint)Game.Player.Character.Model.Hash == (uint)PedHash.Franklin && Game.Player.CanControlCharacter)
             {
                 // Notify the user
                 // TODO: Make the message looks like is coming from Lester
