@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Missions\Mission01.cs" />
     <Compile Include="Script.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserProgress.cs" />
