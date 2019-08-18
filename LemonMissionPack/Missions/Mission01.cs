@@ -32,6 +32,10 @@ namespace LemonMissionPack.Missions
         /// </summary>
         private static readonly Vector3 PickUpLocation = new Vector3(-1032, -2730, 19f);
         /// <summary>
+        /// The location where the objective should be dropped.
+        /// </summary>
+        private static readonly Vector3 DestinationLocation = new Vector3(1305.3f, -1713, 54.60f);
+        /// <summary>
         /// The ped that we need to carry from the airport to Lester's house.
         /// </summary>
         private static Ped Objective { get; set; }
@@ -132,6 +136,13 @@ namespace LemonMissionPack.Missions
                             }
                             // Once the objective has entered the vehicle, unfreeze it
                             Game.Player.Character.CurrentVehicle.FreezePosition = false;
+
+                            // Destroy the existing blip and create a new one
+                            MissionBlip.Remove();
+                            MissionBlip = World.CreateBlip(DestinationLocation);
+                            MissionBlip.Color = BlipColor.Yellow3;
+                            MissionBlip.ShowRoute = true;
+                            MissionBlip.Name = "Amarillo Vista";
 
                             // And show some dialog
                             UI.ShowSubtitle(Manager.Strings["M01_SUB02"], 4000);
