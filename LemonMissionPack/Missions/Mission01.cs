@@ -1,4 +1,4 @@
-﻿using GTA;
+using GTA;
 using GTA.Math;
 using GTA.Native;
 using System;
@@ -37,14 +37,8 @@ namespace LemonMissionPack.Missions
 
         private void OnTickBasics(object sender, EventArgs e)
         {
-            // If the mission is in progress, return
-            if (IsInProgress)
-            {
-                return;
-            }
-
             // If the user has not been notified, the base content is loaded, the game is not loading, the player is Franklin and the player can be controlled
-            if (!Game.MissionFlag && !IsPlayerNotified && Manager.IsContentLoaded && !Game.IsLoading && (uint)Game.Player.Character.Model.Hash == (uint)PedHash.Franklin && Game.Player.CanControlCharacter)
+            if (!IsPlayerNotified && Manager.IsContentLoaded && !Game.IsLoading && (uint)Game.Player.Character.Model.Hash == (uint)PedHash.Franklin && Game.Player.CanControlCharacter)
             {
                 // Notify the user
                 // TODO: Make the message looks like is coming from Lester
@@ -54,7 +48,7 @@ namespace LemonMissionPack.Missions
             }
 
             // If the blip does not exists and the player is Franklin
-            if (!Game.MissionFlag && MissionBlip == null && (uint)Game.Player.Character.Model.Hash == (uint)PedHash.Franklin)
+            if (!IsInProgress && MissionBlip == null && (uint)Game.Player.Character.Model.Hash == (uint)PedHash.Franklin)
             {
                 // Create the mission blip
                 MissionBlip = World.CreateBlip(BlipLocation);
@@ -66,7 +60,7 @@ namespace LemonMissionPack.Missions
             }
 
             // If the blip exists but the character is not Franklin
-            if (!Game.MissionFlag && MissionBlip != null && MissionBlip.Exists() && (uint)Game.Player.Character.Model.Hash != (uint)PedHash.Franklin)
+            if (MissionBlip != null && MissionBlip.Exists() && MissionBlip.Sprite == BlipSprite.Lester && ((uint)Game.Player.Character.Model.Hash != (uint)PedHash.Franklin || IsInProgress))
             {
                 // Destroy the blip
                 MissionBlip.Remove();
