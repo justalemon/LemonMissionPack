@@ -10,6 +10,11 @@ namespace LemonMissionPack.Missions
     /// </summary>
     public class Mission02 : MissionBase
     {
+        /// <summary>
+        /// The location of the mission start.
+        /// </summary>
+        private static readonly Vector3 Start = new Vector3(1291.8f, -1717.5f, 54f);
+
         public Mission02()
         {
             // Add our events
@@ -40,6 +45,13 @@ namespace LemonMissionPack.Missions
                 UI.Notify(Manager.Strings["M02_SMS"]);
                 IsPlayerNotified = true;
                 return;
+            }
+
+            // If the player has been notified and the mission has not been started
+            if (IsPlayerNotified && !IsInProgress)
+            {
+                // Draw a little marker where the mission should start
+                World.DrawMarker(MarkerType.VerticalCylinder, Start, Vector3.Zero, Vector3.Zero, new Vector3(1, 1, 1), Color.Yellow);
             }
         }
     }
