@@ -1,4 +1,4 @@
-﻿using GTA;
+using GTA;
 using GTA.Math;
 using GTA.Native;
 using System;
@@ -43,12 +43,11 @@ namespace LemonMissionPack.Missions
         public Mission01()
         {
             // Add our events
-            Tick += OnTickBasics;
-            Tick += OnTickMission;
+            Tick += OnTick;
             Aborted += OnAbort;
         }
 
-        private void OnTickBasics(object sender, EventArgs e)
+        private void OnTick(object sender, EventArgs e)
         {
             // If the mission is not completed, nor in progress, the player has not been notified, the manager has the basic content loaded, the game is not loading, we are Franklin and we can control him
             if (!Manager.Completion.Mission01 && !IsInProgress && !IsPlayerNotified && Manager.IsContentLoaded && !Game.IsLoading && (uint)Game.Player.Character.Model.Hash == (uint)PedHash.Franklin && Game.Player.CanControlCharacter)
@@ -80,10 +79,7 @@ namespace LemonMissionPack.Missions
                 MissionBlip = null;
                 return;
             }
-        }
 
-        private void OnTickMission(object sender, EventArgs e)
-        {
             // If the player gets too close from the mission start, there is a blip and is the original Lester blip
             if (BlipLocation.DistanceTo(Game.Player.Character.Position) < 500 && MissionBlip != null && MissionBlip.Color == BlipColor.Yellow)
             {
