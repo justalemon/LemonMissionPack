@@ -1,4 +1,4 @@
-﻿using GTA;
+using GTA;
 using GTA.Math;
 using GTA.Native;
 using System;
@@ -174,6 +174,7 @@ namespace LemonMissionPack.Missions
                             UI.ShowSubtitle(Manager.Strings["M01_SUB04"], 4000);
                             Wait(4000);
                             UI.ShowSubtitle(Manager.Strings["M01_SUB05"], 4000);
+                            Wait(4000);
                         }
                     }
                 }
