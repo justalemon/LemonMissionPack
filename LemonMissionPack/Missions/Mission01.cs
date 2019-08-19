@@ -1,4 +1,4 @@
-﻿using GTA;
+using GTA;
 using GTA.Math;
 using GTA.Native;
 using System;
@@ -146,7 +146,7 @@ namespace LemonMissionPack.Missions
                             Objective.CurrentBlip.IsShortRange = true;
 
                             // Tell the ped to enter the vehicle
-                            Function.Call(Hash.TASK_ENTER_VEHICLE, Objective, Game.Player.Character.CurrentVehicle, 20000, 0, 2f, 1, 0);
+                            Function.Call(Hash.TASK_ENTER_VEHICLE, Objective, Game.Player.Character.CurrentVehicle, 20000, 0, 1f, 1, 0);
 
                             // While the objective is entering the vehicle
                             while (!Objective.IsInVehicle(Game.Player.Character.CurrentVehicle))
