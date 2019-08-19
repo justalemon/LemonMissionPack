@@ -1,4 +1,4 @@
-﻿using GTA;
+using GTA;
 using GTA.Math;
 using System;
 using System.Drawing;
@@ -49,7 +49,7 @@ namespace LemonMissionPack.Missions
             }
 
             // If the player has been notified and the mission has not been started
-            if (IsPlayerNotified && !IsInProgress)
+            if (IsPlayerNotified && !IsInProgress && Game.Player.CanControlCharacter)
             {
                 // Draw a little marker where the mission should start
                 World.DrawMarker(MarkerType.VerticalCylinder, Start, Vector3.Zero, Vector3.Zero, new Vector3(1, 1, 1), Color.Yellow);
