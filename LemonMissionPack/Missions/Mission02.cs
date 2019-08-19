@@ -6,7 +6,7 @@ using System.Drawing;
 namespace LemonMissionPack.Missions
 {
     /// <summary>
-    /// Mission 2: Grab a vehicle for the character to use.
+    /// Mission 2: Steal a vehicle for the character to use.
     /// </summary>
     public class Mission02 : MissionBase
     {
@@ -19,6 +19,7 @@ namespace LemonMissionPack.Missions
         {
             // Add our events
             Tick += OnTick;
+            Aborted += OnAbort;
         }
 
         private void OnTick(object sender, EventArgs e)
@@ -52,6 +53,27 @@ namespace LemonMissionPack.Missions
             {
                 // Draw a little marker where the mission should start
                 World.DrawMarker(MarkerType.VerticalCylinder, Start, Vector3.Zero, Vector3.Zero, new Vector3(1, 1, 1), Color.Yellow);
+
+                // If there is no blip
+                if (MissionBlip == null)
+                {
+                    // Create a blip on the start position
+                    MissionBlip = World.CreateBlip(Start);
+                    MissionBlip.Sprite = BlipSprite.Lester;
+                    MissionBlip.Color = BlipColor.Yellow;
+                    MissionBlip.Name = "Placeholder (LMP)";
+                }
+            }
+        }
+
+        private void OnAbort(object sender, EventArgs e)
+        {
+            // If there is a blip present
+            if (MissionBlip != null && MissionBlip.Exists())
+            {
+                // Destroy it
+                MissionBlip.Remove();
+                MissionBlip = null;
             }
         }
     }
