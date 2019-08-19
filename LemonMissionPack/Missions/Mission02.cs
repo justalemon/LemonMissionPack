@@ -1,4 +1,4 @@
-using GTA;
+﻿using GTA;
 using GTA.Math;
 using GTA.Native;
 using System;
@@ -134,6 +134,12 @@ namespace LemonMissionPack.Missions
                 // Destroy it
                 MissionBlip.Remove();
                 MissionBlip = null;
+            }
+
+            // If the screen is faded, return it into the original pov
+            if (Game.IsScreenFadedIn)
+            {
+                Game.FadeScreenIn(1);
             }
         }
     }
