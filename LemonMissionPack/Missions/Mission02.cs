@@ -15,6 +15,10 @@ namespace LemonMissionPack.Missions
         /// The location of the mission start.
         /// </summary>
         private static readonly Vector3 Start = new Vector3(1291.8f, -1717.5f, 54f);
+        /// <summary>
+        /// The target vehicle that we need to steal.
+        /// </summary>
+        private static Vehicle Target;
 
         public Mission02()
         {
@@ -107,6 +111,24 @@ namespace LemonMissionPack.Missions
                     // Change the player position
                     Game.Player.Character.Position = new Vector3(1292.2f, -1718.4f, 54);
                     Game.Player.Character.Heading = 206.5f;
+                    // Request the Banshee model
+                    Model Banshee = new Model(VehicleHash.Banshee2);
+                    Banshee.Request();
+                    while (!Banshee.IsLoaded)
+                    {
+                        Yield();
+                    }
+                    // Create a vehicle and add a blip
+                    Target = World.CreateVehicle(Banshee, new Vector3(1054.3f, -3039.7f, 5.7f), 268.2f);
+                    Target.AddBlip();
+                    Target.CurrentBlip.Sprite = BlipSprite.GetawayCar;
+                    Target.CurrentBlip.IsShortRange = false;
+                    Target.CurrentBlip.Color = BlipColor.Green;
+                    // Change some tunning options
+                    Function.Call(Hash.SET_VEHICLE_EXTRA, Target, 2, 1);
+                    // Destroy the old blip
+                    MissionBlip.Remove();
+                    MissionBlip = null;
 
                     // Fade back in
                     Game.FadeScreenIn(1000);
@@ -135,6 +157,19 @@ namespace LemonMissionPack.Missions
                 // Destroy it
                 MissionBlip.Remove();
                 MissionBlip = null;
+            }
+
+            // If there is a vehicle
+            if (Target != null && Target.Exists())
+            {
+                // Destroy the blip if it exists
+                if (Target.CurrentBlip != null && Target.CurrentBlip.Exists())
+                {
+                    Target.CurrentBlip.Remove();
+                }
+
+                // Then, destroy the vehicle
+                Target.Delete();
             }
 
             // If the screen is faded, return it into the original pov
