@@ -187,6 +187,8 @@ namespace LemonMissionPack.Missions
                 MissionBlip.Color = BlipColor.Yellow3;
                 MissionBlip.ShowRoute = true;
                 MissionBlip.Name = "Amarillo Vista";
+                // And destroy the one on the vehicle
+                Objective.CurrentVehicle.CurrentBlip.Remove();
             }
 
             // If the player is en-route to dropping the objective
