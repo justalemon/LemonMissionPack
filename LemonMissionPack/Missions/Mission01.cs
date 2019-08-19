@@ -1,4 +1,4 @@
-using GTA;
+﻿using GTA;
 using GTA.Math;
 using GTA.Native;
 using System;
@@ -34,7 +34,7 @@ namespace LemonMissionPack.Missions
         /// <summary>
         /// The location where the objective should be dropped.
         /// </summary>
-        private static readonly Vector3 DestinationLocation = new Vector3(1305.3f, -1713, 54.60f);
+        private static readonly Vector3 DestinationLocation = new Vector3(1305.3f, -1713, 53.5f);
         /// <summary>
         /// The ped that we need to carry from the airport to Lester's house.
         /// </summary>
