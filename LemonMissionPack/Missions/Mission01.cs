@@ -1,4 +1,4 @@
-using GTA;
+﻿using GTA;
 using GTA.Math;
 using GTA.Native;
 using System;
@@ -117,7 +117,7 @@ namespace LemonMissionPack.Missions
                 }
 
                 // Then, proceed to create the ped
-                Objective = World.CreatePed(new Model(PedHash.FreemodeMale01), new Vector3(-1033.15f, -2739.35f, 20.17f), 14.87f);
+                Objective = World.CreatePed(new Model(PedHash.FreemodeMale01), new Vector3(-1031f, -2734.2f, 20.15f), 8.3f);
                 Objective.IsEnemy = false;
                 Objective.IsInvincible = true;
             }
