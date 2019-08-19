@@ -223,7 +223,7 @@ namespace LemonMissionPack.Missions
                     MissionBlip.Remove();
                     MissionBlip = null;
                     // Set the mission as passed and save the progress
-                    Manager.Completion.Mission01 = (int)(DateTime.UtcNow - DateTime.MinValue).TotalSeconds;
+                    Manager.Completion.Mission01 = (DateTime.UtcNow - DateTime.MinValue).TotalSeconds;
                     Manager.SaveProgress();
 
                     // Fade in
