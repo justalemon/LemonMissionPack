@@ -13,9 +13,17 @@ namespace LemonMissionPack
     public class Manager : Script
     {
         /// <summary>
+        /// The location of the progress file.
+        /// </summary>
+        private static readonly string ProgressPath = Path.Combine(Paths.GetCallingPath(), "LemonMissionPack", "UserProgress.json");
+        /// <summary>
         /// The strings to show in the game.
         /// </summary>
         public static Dictionary<string, string> Strings { get; private set; } = new Dictionary<string, string>();
+        /// <summary>
+        /// The current progress of the player.
+        /// </summary>
+        public static UserProgress Completion = JsonConvert.DeserializeObject<UserProgress>(File.ReadAllText(ProgressPath));
         /// <summary>
         /// If the base mission content has been loaded.
         /// </summary>
@@ -27,6 +35,14 @@ namespace LemonMissionPack
             ReloadStrings(false);
             // And mark the basics as loaded
             IsContentLoaded = true;
+        }
+
+        public static void SaveProgress()
+        {
+            // Convert the user progress from a C# class to a string
+            string JSON = JsonConvert.SerializeObject(Completion);
+            // Write that JSON into the file
+            File.WriteAllText(ProgressPath, JSON);
         }
 
         public static void ReloadStrings(bool Notify = true)
