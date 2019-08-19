@@ -1,4 +1,4 @@
-﻿using GTA;
+using GTA;
 using GTA.Math;
 using GTA.Native;
 using System;
@@ -105,8 +105,6 @@ namespace LemonMissionPack.Missions
 
                 // Then, proceed to create the ped
                 Objective = World.CreatePed(new Model(PedHash.FreemodeMale01), new Vector3(-1033.15f, -2739.35f, 20.17f), 14.87f);
-                Objective.AddBlip();
-                Objective.CurrentBlip.Color = BlipColor.Blue;
                 Objective.IsEnemy = false;
                 Objective.IsInvincible = true;
             }
@@ -129,6 +127,11 @@ namespace LemonMissionPack.Missions
                         // If the player is pressing the horn
                         if (Game.IsEnabledControlJustPressed(0, Control.VehicleHorn))
                         {
+                            // Add a blip with basic information
+                            Objective.AddBlip();
+                            Objective.CurrentBlip.Color = BlipColor.Blue;
+                            Objective.CurrentBlip.IsShortRange = true;
+
                             // Tell the ped to enter the vehicle
                             Function.Call(Hash.TASK_ENTER_VEHICLE, Objective, Game.Player.Character.CurrentVehicle, 20000, 0, 2f, 1, 0);
 
@@ -140,6 +143,8 @@ namespace LemonMissionPack.Missions
                             }
                             // Once the objective has entered the vehicle, unfreeze it
                             Game.Player.Character.CurrentVehicle.FreezePosition = false;
+                            // Remove the blip of the objective
+                            Objective.CurrentBlip.Remove();
 
                             // Destroy the existing blip and create a new one
                             MissionBlip.Remove();
