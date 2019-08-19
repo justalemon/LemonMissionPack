@@ -1,4 +1,4 @@
-﻿using GTA;
+using GTA;
 using GTA.Math;
 using GTA.Native;
 using System;
@@ -165,7 +165,7 @@ namespace LemonMissionPack.Missions
             if (MissionBlip != null && MissionBlip.Color == BlipColor.Yellow3)
             {
                 // Draw a little marker to show where the player needs to stop
-                World.DrawMarker(MarkerType.VerticalCylinder, PickUpLocation, Vector3.Zero, Vector3.Zero, new Vector3(1, 1, 1), Color.Yellow);
+                World.DrawMarker(MarkerType.VerticalCylinder, DestinationLocation, Vector3.Zero, Vector3.Zero, new Vector3(1, 1, 1), Color.Yellow);
 
                 // If the player has arrived
                 if (DestinationLocation.DistanceTo(Game.Player.Character.Position) <= 2)
