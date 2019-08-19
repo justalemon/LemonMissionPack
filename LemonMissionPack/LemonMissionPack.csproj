@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="Missions\Mission01.cs" />
     <Compile Include="Manager.cs" />
+    <Compile Include="Missions\MissionBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserProgress.cs" />
     <Compile Include="..\Citron\Paths.cs" />

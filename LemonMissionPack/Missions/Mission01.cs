@@ -9,20 +9,8 @@ namespace LemonMissionPack.Missions
     /// <summary>
     /// Mission 1: The player picks up Lester's friend from LSIA.
     /// </summary>
-    public class Mission01 : Script
+    public class Mission01 : MissionBase
     {
-        /// <summary>
-        /// If the player has been notified about the mission.
-        /// </summary>
-        public static bool IsPlayerNotified { get; private set; } = false;
-        /// <summary>
-        /// If the mission is currently in progress.
-        /// </summary>
-        public static bool IsInProgress { get; private set; } = false;
-        /// <summary>
-        /// The blip used to mark the mission location.
-        /// </summary>
-        public static Blip MissionBlip { get; private set; }
         /// <summary>
         /// The location of the blip.
         /// </summary>
