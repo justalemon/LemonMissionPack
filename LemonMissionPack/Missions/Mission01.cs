@@ -1,4 +1,4 @@
-using GTA;
+﻿using GTA;
 using GTA.Math;
 using GTA.Native;
 using System;
@@ -204,8 +204,10 @@ namespace LemonMissionPack.Missions
                     // Add a blip onto the vehicle
                     Objective.CurrentVehicle.AddBlip();
                     Objective.CurrentVehicle.CurrentBlip.Color = BlipColor.Blue2;
-                    // And tell the user
+                    // Tell the user
                     UI.ShowSubtitle(Manager.Strings["M01_SUB08"], 4000);
+                    // And return to avoid side effects
+                    return;
                 }
 
                 // Draw a little marker to show where the player needs to stop
