@@ -1,5 +1,6 @@
 using GTA;
 using GTA.Math;
+using GTA.Native;
 using System;
 using System.Drawing;
 
@@ -53,6 +54,65 @@ namespace LemonMissionPack.Missions
             {
                 // Draw a little marker where the mission should start
                 World.DrawMarker(MarkerType.VerticalCylinder, Start, Vector3.Zero, Vector3.Zero, new Vector3(1, 1, 1), Color.Yellow);
+
+                // If the player is near mission start witout a vehicle
+                if (Start.DistanceTo(Game.Player.Character.Position) < 2 && Game.Player.Character.CurrentVehicle == null)
+                {
+                    // Fade the screen out
+                    Game.FadeScreenOut(1000);
+                    Wait(1000);
+
+                    // Mark the mission as started
+                    IsInProgress = true;
+                    // Change the time of day to morning
+                    World.CurrentDayTime = new TimeSpan(7, 0, 0);
+                    // Move the player to an appropiate position and lock him in place
+                    Game.Player.Character.Position = new Vector3(1290.3f, -1714, 55);
+                    Game.Player.Character.Heading = 111;
+                    Game.Player.Character.FreezePosition = true;
+                    // Request the freemode male model
+                    Model FreemodeMale = new Model(PedHash.FreemodeMale01);
+                    FreemodeMale.Request();
+                    // Wait until the model has been loaded
+                    while (!FreemodeMale.IsLoaded)
+                    {
+                        Yield();
+                    }
+                    // Then, spawn the objective ped and also freeze it in place
+                    Ped Objective = World.CreatePed(FreemodeMale, new Vector3(1288.5f, -1714, 54), 396.4f);
+                    Objective.FreezePosition = true;
+
+                    // Fade in
+                    Game.FadeScreenIn(1000);
+                    Wait(1000);
+
+                    // And print the dialog
+                    UI.ShowSubtitle(Manager.Strings["M02_SUB01"], 4000);
+                    Wait(4000);
+                    UI.ShowSubtitle(Manager.Strings["M02_SUB02"], 4000);
+                    Wait(4000);
+                    UI.ShowSubtitle(Manager.Strings["M02_SUB03"], 4000);
+                    Wait(4000);
+                    UI.ShowSubtitle(Manager.Strings["M02_SUB04"], 4000);
+                    Wait(4000);
+                    UI.ShowSubtitle(Manager.Strings["M02_SUB05"], 4000);
+                    Wait(4000);
+
+                    // Then, fade out again
+                    Game.FadeScreenOut(1000);
+                    Wait(1000);
+                    // Remove the ped
+                    Objective.Delete();
+                    // Change the player position
+                    Game.Player.Character.Position = new Vector3(1292.2f, -1718.4f, 54);
+                    Game.Player.Character.Heading = 206.5f;
+
+                    // Fade back in
+                    Game.FadeScreenIn(1000);
+                    Wait(750);
+                    // And unfreeze the player
+                    Game.Player.Character.FreezePosition = false;
+                }
 
                 // If there is no blip
                 if (MissionBlip == null)
