@@ -1,4 +1,4 @@
-using GTA;
+﻿using GTA;
 using GTA.Math;
 using GTA.Native;
 using System;
@@ -49,8 +49,16 @@ namespace LemonMissionPack.Missions
 
         private void OnTick(object sender, EventArgs e)
         {
-            // If the mission is not completed, nor in progress, the player has not been notified, the manager has the basic content loaded, the game is not loading, we are Franklin and we can control him
-            if (!Manager.Completion.Mission01 && !IsInProgress && !IsPlayerNotified && Manager.IsContentLoaded && !Game.IsLoading && (uint)Game.Player.Character.Model.Hash == (uint)PedHash.Franklin && Game.Player.CanControlCharacter)
+            // If this mission has been completed
+            if (Manager.Completion.Mission01)
+            {
+                // Remove the event and return
+                Tick -= OnTick;
+                return;
+            }
+
+            // If the mission is not in progress, the player has not been notified, the manager has the basic content loaded, the game is not loading, we are Franklin and we can control him
+            if (!IsInProgress && !IsPlayerNotified && Manager.IsContentLoaded && !Game.IsLoading && (uint)Game.Player.Character.Model.Hash == (uint)PedHash.Franklin && Game.Player.CanControlCharacter)
             {
                 // Notify the user
                 // TODO: Make the message looks like is coming from Lester
@@ -59,8 +67,8 @@ namespace LemonMissionPack.Missions
                 return;
             }
 
-            // If the mission is not completed, nor in progress, there is no blip and we are playing as Franklin
-            if (!Manager.Completion.Mission01 && !IsInProgress && MissionBlip == null && (uint)Game.Player.Character.Model.Hash == (uint)PedHash.Franklin)
+            // If the mission is not in progress, there is no blip and we are playing as Franklin
+            if (!IsInProgress && MissionBlip == null && (uint)Game.Player.Character.Model.Hash == (uint)PedHash.Franklin)
             {
                 // Create the mission blip
                 MissionBlip = World.CreateBlip(BlipLocation);
