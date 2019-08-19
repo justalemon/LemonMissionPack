@@ -1,4 +1,4 @@
-﻿using GTA;
+using GTA;
 using GTA.Math;
 using GTA.Native;
 using System;
@@ -67,7 +67,7 @@ namespace LemonMissionPack.Missions
                     // Change the time of day to morning
                     World.CurrentDayTime = new TimeSpan(7, 0, 0);
                     // Move the player to an appropiate position and lock him in place
-                    Game.Player.Character.Position = new Vector3(1290.3f, -1714, 55);
+                    Game.Player.Character.Position = new Vector3(1290.3f, -1714, 54);
                     Game.Player.Character.Heading = 111;
                     Game.Player.Character.FreezePosition = true;
                     // Request the freemode male model
@@ -80,6 +80,7 @@ namespace LemonMissionPack.Missions
                     }
                     // Then, spawn the objective ped and also freeze it in place
                     Ped Objective = World.CreatePed(FreemodeMale, new Vector3(1288.5f, -1714, 54), 396.4f);
+                    Objective.Heading = 293;
                     Objective.FreezePosition = true;
 
                     // Fade in
