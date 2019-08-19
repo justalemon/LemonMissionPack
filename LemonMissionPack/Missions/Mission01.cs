@@ -50,8 +50,8 @@ namespace LemonMissionPack.Missions
 
         private void OnTickBasics(object sender, EventArgs e)
         {
-            // If the user has not been notified, the base content is loaded, the game is not loading, the player is Franklin and the player can be controlled
-            if (!IsInProgress && !IsPlayerNotified && Manager.IsContentLoaded && !Game.IsLoading && (uint)Game.Player.Character.Model.Hash == (uint)PedHash.Franklin && Game.Player.CanControlCharacter)
+            // If the mission is not completed, nor in progress, the player has not been notified, the manager has the basic content loaded, the game is not loading, we are Franklin and we can control him
+            if (!Manager.Completion.Mission01 && !IsInProgress && !IsPlayerNotified && Manager.IsContentLoaded && !Game.IsLoading && (uint)Game.Player.Character.Model.Hash == (uint)PedHash.Franklin && Game.Player.CanControlCharacter)
             {
                 // Notify the user
                 // TODO: Make the message looks like is coming from Lester
@@ -60,8 +60,8 @@ namespace LemonMissionPack.Missions
                 return;
             }
 
-            // If the blip does not exists and the player is Franklin
-            if (!IsInProgress && MissionBlip == null && (uint)Game.Player.Character.Model.Hash == (uint)PedHash.Franklin)
+            // If the mission is not completed, nor in progress, there is no blip and we are playing as Franklin
+            if (!Manager.Completion.Mission01 && !IsInProgress && MissionBlip == null && (uint)Game.Player.Character.Model.Hash == (uint)PedHash.Franklin)
             {
                 // Create the mission blip
                 MissionBlip = World.CreateBlip(BlipLocation);
@@ -72,7 +72,7 @@ namespace LemonMissionPack.Missions
                 return;
             }
 
-            // If the blip exists but the character is not Franklin
+            // If the blip exists, has a Lester icon but the player is not Franklin or the mission is in progress
             if (MissionBlip != null && MissionBlip.Exists() && MissionBlip.Sprite == BlipSprite.Lester && ((uint)Game.Player.Character.Model.Hash != (uint)PedHash.Franklin || IsInProgress))
             {
                 // Destroy the blip
@@ -84,7 +84,7 @@ namespace LemonMissionPack.Missions
 
         private void OnTickMission(object sender, EventArgs e)
         {
-            // If the player gets too close from the mission start, there is a blip and is the 2nd type of yellow
+            // If the player gets too close from the mission start, there is a blip and is the original Lester blip
             if (BlipLocation.DistanceTo(Game.Player.Character.Position) < 500 && MissionBlip != null && MissionBlip.Color == BlipColor.Yellow)
             {
                 // Mark the mission as in-progress
@@ -184,6 +184,9 @@ namespace LemonMissionPack.Missions
                     // And delete the blip
                     MissionBlip.Remove();
                     MissionBlip = null;
+                    // Set the mission as passed and save the progress
+                    Manager.Completion.Mission01 = true;
+                    Manager.SaveProgress();
 
                     // Fade in
                     Game.FadeScreenIn(1000);
