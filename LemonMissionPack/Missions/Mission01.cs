@@ -100,8 +100,17 @@ namespace LemonMissionPack.Missions
                 MissionBlip.Color = BlipColor.Yellow2;
                 MissionBlip.ShowRoute = true;
                 MissionBlip.Name = "Terminal 4";
-                // And notify the player
-                UI.ShowSubtitle(Manager.Strings["M01_SUB01"], 5000);
+
+                // If the player is on a vehicle, tell him to pick the objective
+                if (Game.Player.Character.CurrentVehicle != null)
+                {
+                    UI.ShowSubtitle(Manager.Strings["M01_SUB01"], 5000);
+                }
+                // Otherwise, tell him to get a vehicle
+                else
+                {
+                    UI.ShowSubtitle(Manager.Strings["M01_SUB07"], 5000);
+                }
 
                 // Then, proceed to create the ped
                 Objective = World.CreatePed(new Model(PedHash.FreemodeMale01), new Vector3(-1033.15f, -2739.35f, 20.17f), 14.87f);
@@ -124,8 +133,8 @@ namespace LemonMissionPack.Missions
                         // Freeze the vehicle
                         Game.Player.Character.CurrentVehicle.FreezePosition = true;
 
-                        // If the player is pressing the horn
-                        if (Game.IsEnabledControlJustPressed(0, Control.VehicleHorn))
+                        // If the player is pressing the horn and is on a vehicle
+                        if (Game.IsEnabledControlJustPressed(0, Control.VehicleHorn) && Game.Player.Character.CurrentVehicle != null)
                         {
                             // Add a blip with basic information
                             Objective.AddBlip();
