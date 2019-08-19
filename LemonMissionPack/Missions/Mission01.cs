@@ -1,4 +1,4 @@
-using GTA;
+﻿using GTA;
 using GTA.Math;
 using GTA.Native;
 using System;
@@ -39,6 +39,10 @@ namespace LemonMissionPack.Missions
         /// The ped that we need to carry from the airport to Lester's house.
         /// </summary>
         private static Ped Objective { get; set; }
+        /// <summary>
+        /// If the player has been notified that is out of the vehicle
+        /// </summary>
+        private static bool OutOfVehicle { get; set; } = false;
 
         public Mission01()
         {
@@ -175,9 +179,32 @@ namespace LemonMissionPack.Missions
                 }
             }
 
+            // If there is no mission blip, there is an objective with a vehicle and that vehicle is the same as the player
+            if (MissionBlip == null && Objective != null && Objective.CurrentVehicle != null && Game.Player.Character.CurrentVehicle == Objective.CurrentVehicle)
+            {
+                // Restore the old blip
+                MissionBlip = World.CreateBlip(DestinationLocation);
+                MissionBlip.Color = BlipColor.Yellow3;
+                MissionBlip.ShowRoute = true;
+                MissionBlip.Name = "Amarillo Vista";
+            }
+
             // If the player is en-route to dropping the objective
             if (MissionBlip != null && MissionBlip.Color == BlipColor.Yellow3)
             {
+                // If the current player vehicle does not matches the one where the objective is
+                if (Game.Player.Character.CurrentVehicle != Objective.CurrentVehicle)
+                {
+                    // Destroy the objective blip
+                    MissionBlip.Remove();
+                    MissionBlip = null;
+                    // Add a blip onto the vehicle
+                    Objective.CurrentVehicle.AddBlip();
+                    Objective.CurrentVehicle.CurrentBlip.Color = BlipColor.Blue2;
+                    // And tell the user
+                    UI.ShowSubtitle(Manager.Strings["M01_SUB08"], 4000);
+                }
+
                 // Draw a little marker to show where the player needs to stop
                 World.DrawMarker(MarkerType.VerticalCylinder, DestinationLocation, Vector3.Zero, Vector3.Zero, new Vector3(1, 1, 1), Color.Yellow);
 
