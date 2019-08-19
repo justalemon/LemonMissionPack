@@ -1,4 +1,4 @@
-using GTA;
+﻿using GTA;
 using GTA.Math;
 using GTA.Native;
 using System;
@@ -137,8 +137,8 @@ namespace LemonMissionPack.Missions
                     Game.Player.Character.FreezePosition = false;
                 }
 
-                // If there is no blip
-                if (MissionBlip == null)
+                // If there is no blip and no vehicle to steal
+                if (MissionBlip == null && Target == null)
                 {
                     // Create a blip on the start position
                     MissionBlip = World.CreateBlip(Start);
