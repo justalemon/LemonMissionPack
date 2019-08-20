@@ -2,6 +2,7 @@
 using GTA.Math;
 using GTA.Native;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 
 namespace LemonMissionPack.Missions
@@ -19,6 +20,10 @@ namespace LemonMissionPack.Missions
         /// The target vehicle that we need to steal.
         /// </summary>
         private static Vehicle Target;
+        /// <summary>
+        /// The enemies that are looking for the car.
+        /// </summary>
+        private static List<Ped> Enemies = new List<Ped>();
 
         public Mission02()
         {
@@ -45,7 +50,7 @@ namespace LemonMissionPack.Missions
             }
 
             // If the player has not been notified and a minute has passed since the last mission
-            if (!IsPlayerNotified && ((DateTime.UtcNow - DateTime.MinValue).TotalSeconds - Manager.Completion.Mission01) >= 60)
+            if (!IsPlayerNotified && !IsInProgress && ((DateTime.UtcNow - DateTime.MinValue).TotalSeconds - Manager.Completion.Mission01) >= 60)
             {
                 // Notify the user
                 UI.Notify(Manager.Strings["M02_SMS"]);
@@ -68,6 +73,8 @@ namespace LemonMissionPack.Missions
 
                     // Mark the mission as started
                     IsInProgress = true;
+                    // And disable the notification flag
+                    IsPlayerNotified = false;
                     // Change the time of day to morning
                     World.CurrentDayTime = new TimeSpan(7, 0, 0);
                     // Move the player to an appropiate position and lock him in place
@@ -149,6 +156,39 @@ namespace LemonMissionPack.Missions
                     MissionBlip.Name = "Placeholder (LMP)";
                 }
             }
+
+            // If the mission is in progress, the plalyer has not been notified and there is a vehicle
+            if (IsInProgress && !IsPlayerNotified && Target != null)
+            {
+                // If the player is getting near the vehicle
+                if (Target.Position.DistanceTo(Game.Player.Character.Position) < 500)
+                {
+                    // Notify the player about the enemies
+                    UI.Notify(Manager.Strings["M02_SUB06"], true);
+                    IsPlayerNotified = true;
+
+                    // Request the models
+                    Model Triad1 = new Model(PedHash.ArmBoss01GMM);
+                    Triad1.Request();
+                    while (!Triad1.IsLoaded) Yield();
+
+                    // Create the enemies
+                    Enemies = new List<Ped>
+                    {
+                        World.CreatePed(Triad1, new Vector3(1046.3f, -3042.3f, 17.2f), 268.5f),
+                        World.CreatePed(Triad1, new Vector3(1059.6f, -3034.5f, 5.9f), 229f),
+                        World.CreatePed(Triad1, new Vector3(1051.9f, -3047.6f, 5.9f), 222.9f),
+                        World.CreatePed(Triad1, new Vector3(1048.9f, -3041.7f, 5.9f), 292.4f),
+                        World.CreatePed(Triad1, new Vector3(1059.7f, -3035.8f, 5.9f), 225f),
+                    };
+
+                    // And add weapons to them
+                    foreach (Ped Enemy in Enemies)
+                    {
+                        Enemy.Weapons.Give(WeaponHash.CarbineRifleMk2, 9999, false, true);
+                    }
+                }
+            }
         }
 
         private void OnAbort(object sender, EventArgs e)
@@ -172,6 +212,15 @@ namespace LemonMissionPack.Missions
 
                 // Then, destroy the vehicle
                 Target.Delete();
+            }
+
+            // Delete the enemies
+            foreach (Ped Enemy in Enemies)
+            {
+                if (Enemy != null && Enemy.Exists())
+                {
+                    Enemy.Delete();
+                }
             }
 
             // If the screen is faded, return it into the original pov
