@@ -133,8 +133,10 @@ namespace LemonMissionPack.Missions
                     // Fade back in
                     Game.FadeScreenIn(1000);
                     Wait(750);
-                    // And unfreeze the player
+                    // Unfreeze the player
                     Game.Player.Character.FreezePosition = false;
+                    // And show a subtitle with instructions
+                    UI.ShowSubtitle(Manager.Strings["M02_SUB07"], 4000);
                 }
 
                 // If there is no blip and no vehicle to steal
